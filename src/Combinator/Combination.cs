@@ -59,7 +59,7 @@ namespace Combinator
                 hashSelector: hashSelector,
                 value: 0,
                 cost: 0,
-                hash: 0
+                hash: 234672346
             );
 
         public override bool Equals(object obj)

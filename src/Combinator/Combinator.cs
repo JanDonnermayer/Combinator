@@ -89,7 +89,7 @@ namespace Combinator
              );
 
             var comparer = Comparer<Combination<T>>
-                .Create((x, y) => x.Cost - y.Cost);
+                .Create((x, y) => y.CostPerValue() - x.CostPerValue());
 
             var frontier = ImmutableSortedSet<Combination<T>>.Empty
                 .Add(rootState)
@@ -102,7 +102,8 @@ namespace Combinator
                 var state = frontier.Min;
                 frontier = frontier.Remove(state);
 
-                if (choosePredicate(state)) yield return state;
+                if (choosePredicate(state))
+                    yield return state;
 
                 frontier = nodes
                     .Select(state.Add)
