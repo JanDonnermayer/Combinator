@@ -88,15 +88,18 @@ namespace Combinator
                  hashSelector: n => n.GetHashCode()
              );
 
-            var frontier = ImmutableSortedSet<Combination<T>>.Empty
-                .Add(rootState)
-                .WithComparer(new CombinationComparer<T>());
+            var frontier = ImmutableHashSet<Combination<T>>.Empty
+                .Add(rootState);
 
             var visited = new HashSet<Combination<T>>();
 
             while (frontier.Count > 0)
             {
-                var state = frontier.Min;
+                var state = frontier
+                    .OrderBy(s => s.CostPerValue())
+                    .ThenByDescending(s => s.Cost)
+                    .First();
+
                 frontier = frontier.Remove(state);
 
                 if (choosePredicate(state))
