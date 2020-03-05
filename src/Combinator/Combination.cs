@@ -7,17 +7,17 @@ namespace Combinator
 {
     internal sealed class Combination<T> : ICombination<T>
     {
-        private readonly Func<T, int> valueSelector;
-        private readonly Func<T, int> costSelector;
+        private readonly Func<T, double> valueSelector;
+        private readonly Func<T, double> costSelector;
         private readonly Func<T, int> hashSelector;
 
         private Combination(
             ImmutableList<T> nodes,
-            Func<T, int> valueSelector,
-            Func<T, int> costSelector,
+            Func<T, double> valueSelector,
+            Func<T, double> costSelector,
             Func<T, int> hashSelector,
-            int value,
-            int cost,
+            double value,
+            double cost,
             int hash)
         {
             Nodes = nodes;
@@ -31,9 +31,9 @@ namespace Combinator
 
         public ImmutableList<T> Nodes { get; }
 
-        public int Value { get; }
+        public double Value { get; }
 
-        public int Cost { get; }
+        public double Cost { get; }
 
         public int Hash { get; }
 
@@ -49,8 +49,8 @@ namespace Combinator
             );
 
         public static Combination<T> Empty(
-            Func<T, int> valueSelector,
-            Func<T, int> costSelector,
+            Func<T, double> valueSelector,
+            Func<T, double> costSelector,
             Func<T, int> hashSelector) =>
             new Combination<T>(
                 nodes: ImmutableList.Create<T>(),

@@ -11,14 +11,14 @@ namespace Combinator.Tests
 
         private struct TestNode
         {
-            public TestNode(int value, int cost)
+            public TestNode(double value, double cost)
             {
                 Value = value;
                 Cost = cost;
             }
 
-            public int Value { get; }
-            public int Cost { get; }
+            public double Value { get; }
+            public double Cost { get; }
         }
 
         [Test]
@@ -29,15 +29,16 @@ namespace Combinator.Tests
             {
                 new TestNode(5, 1),
                 new TestNode(7, 2),
+                new TestNode(10, 2),
                 new TestNode(10, 3)
             };
 
-            const int minValue = 100;
-            const int maxValue = 105;
-            const int maxCost = 200;
+            const double minValue = 100;
+            const double maxValue = 105;
+            const double maxCost = 200;
 
-            static int GetValue(TestNode node) => node.Value;
-            static int GetCosts(TestNode node) => node.Cost;
+            static double GetValue(TestNode node) => node.Value;
+            static double GetCosts(TestNode node) => node.Cost;
 
             // Act
             var results = Combinator
@@ -74,11 +75,11 @@ namespace Combinator.Tests
                 new TestNode(10, 3)
             };
 
-            const int minValue = 100;
-            const int maxValue = 105;
+            const double minValue = 100;
+            const double maxValue = 105;
 
-            static int GetValue(TestNode node) => node.Value;
-            static int GetCosts(TestNode node) => node.Cost;
+            static double GetValue(TestNode node) => node.Value;
+            static double GetCosts(TestNode node) => node.Cost;
 
             // Act
             var results = Combinator
@@ -113,10 +114,10 @@ namespace Combinator.Tests
                 new TestNode(10, 3)
             };
 
-            const int maxCost = 200;
+            const double maxCost = 200;
 
-            static int GetValue(TestNode node) => node.Value;
-            static int GetCosts(TestNode node) => node.Cost;
+            static double GetValue(TestNode node) => node.Value;
+            static double GetCosts(TestNode node) => node.Cost;
 
             // Act
             var results = Combinator

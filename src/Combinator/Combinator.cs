@@ -9,11 +9,11 @@ namespace Combinator
     {
         public static IEnumerable<ICombination<T>> Combine<T>(
             IEnumerable<T> nodes,
-            Func<T, int> valueSelector,
-            int minValue,
-            int maxValue,
-            Func<T, int> costSelector,
-            int maxCost)
+            Func<T, double> valueSelector,
+            double minValue,
+            double maxValue,
+            Func<T, double> costSelector,
+            double maxCost)
         {
             bool proceedPredicate(ICombination<T> state) =>
                 state.Value <= maxValue && state.Cost <= maxCost;
@@ -34,16 +34,16 @@ namespace Combinator
 
         public static IEnumerable<ICombination<T>> Combine<T>(
             IEnumerable<T> nodes,
-            Func<T, int> valueSelector,
-            int minValue,
-            int maxValue,
-            Func<T, int> costSelector)
+            Func<T, double> valueSelector,
+            double minValue,
+            double maxValue,
+            Func<T, double> costSelector)
         {
             bool proceedPredicate(ICombination<T> state) =>
                 state.Value <= maxValue;
 
             bool choosePredicate(ICombination<T> state) =>
-                state.Value >= minValue 
+                state.Value >= minValue
                 && state.Value <= maxValue;
 
             return Combine(
@@ -57,9 +57,9 @@ namespace Combinator
 
         public static IEnumerable<ICombination<T>> Combine<T>(
             IEnumerable<T> nodes,
-            Func<T, int> valueSelector,
-            Func<T, int> costSelector,
-            int maxCost)
+            Func<T, double> valueSelector,
+            Func<T, double> costSelector,
+            double maxCost)
         {
             bool proceedPredicate(ICombination<T> state) =>
                  state.Cost <= maxCost;
@@ -77,8 +77,8 @@ namespace Combinator
 
         public static IEnumerable<ICombination<T>> Combine<T>(
             IEnumerable<T> nodes,
-            Func<T, int> valueSelector,
-            Func<T, int> costSelector,
+            Func<T, double> valueSelector,
+            Func<T, double> costSelector,
             Func<ICombination<T>, bool> proceedPredicate,
             Func<ICombination<T>, bool> choosePredicate)
         {
@@ -88,8 +88,20 @@ namespace Combinator
                  hashSelector: n => n.GetHashCode()
              );
 
+            double costPerValueSelector(T node) =>
+                (costSelector(node), valueSelector(node)) switch
+                {
+                    (_, 0) => 0,
+                    (double cost, double value) => cost / value
+                };
+
+            var orderedNodes = nodes
+                .OrderBy(costPerValueSelector)
+                .ThenByDescending(valueSelector)
+                .ToList();
+
             var comparer = Comparer<Combination<T>>
-                .Create((x, y) => y.CostPerValue() - x.CostPerValue());
+                .Create((x, y) => (int)y.CostPerValue() - (int)x.CostPerValue());
 
             var frontier = ImmutableSortedSet<Combination<T>>.Empty
                 .Add(rootState)
@@ -105,7 +117,7 @@ namespace Combinator
                 if (choosePredicate(state))
                     yield return state;
 
-                frontier = nodes
+                frontier = orderedNodes
                     .Select(state.Add)
                     .Where(visited.Add)
                     .Where<Combination<T>>(proceedPredicate)
