@@ -89,11 +89,7 @@ namespace Combinator
              );
 
             double costPerValueSelector(T node) =>
-                (costSelector(node), valueSelector(node)) switch
-                {
-                    (_, 0) => 0,
-                    (double cost, double value) => cost / value
-                };
+                costSelector(node) / valueSelector(node);
 
             var orderedNodes = nodes
                 .OrderBy(costPerValueSelector)
