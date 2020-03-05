@@ -40,7 +40,7 @@ namespace Combinator.Tests
             static double GetCosts(TestNode node) => node.Cost;
 
             // Act
-            var results = Combinator
+            var results = CombinationProvider
                 .Combine(
                     nodes: nodes,
                     valueSelector: GetValue,
@@ -82,7 +82,7 @@ namespace Combinator.Tests
             static double GetCosts(TestNode node) => node.Cost;
 
             // Act
-            var results = Combinator
+            var results = CombinationProvider
                 .Combine(
                     nodes: nodes,
                     valueSelector: GetValue,
@@ -121,7 +121,7 @@ namespace Combinator.Tests
             static double GetCosts(TestNode node) => node.Cost;
 
             // Act
-            var results = Combinator
+            var results = CombinationProvider
                 .Combine(
                     nodes: nodes,
                     valueSelector: GetValue,

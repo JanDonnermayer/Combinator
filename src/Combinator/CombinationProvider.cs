@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Combinator
 {
-    public static class Combinator
+    public static class CombinationProvider
     {
         public static IEnumerable<ICombination<T>> Combine<T>(
             IEnumerable<T> nodes,
