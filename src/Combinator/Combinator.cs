@@ -88,20 +88,9 @@ namespace Combinator
                  hashSelector: n => n.GetHashCode()
              );
 
-            double costPerValueSelector(T node) =>
-                costSelector(node) / valueSelector(node);
-
-            var orderedNodes = nodes
-                .OrderBy(costPerValueSelector)
-                .ThenByDescending(valueSelector)
-                .ToList();
-
-            var comparer = Comparer<Combination<T>>
-                .Create((x, y) => (int)y.CostPerValue() - (int)x.CostPerValue());
-
             var frontier = ImmutableSortedSet<Combination<T>>.Empty
                 .Add(rootState)
-                .WithComparer(comparer);
+                .WithComparer(new CombinationComparer<T>());
 
             var visited = new HashSet<Combination<T>>();
 
@@ -113,7 +102,7 @@ namespace Combinator
                 if (choosePredicate(state))
                     yield return state;
 
-                frontier = orderedNodes
+                frontier = nodes
                     .Select(state.Add)
                     .Where(visited.Add)
                     .Where<Combination<T>>(proceedPredicate)

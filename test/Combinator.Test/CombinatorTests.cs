@@ -32,9 +32,9 @@ namespace Combinator.Tests
                 new TestNode(10, 3)
             };
 
-            const double minValue = 100;
-            const double maxValue = 105;
-            const double maxCost = 200;
+            const double minValue = 10000;
+            const double maxValue = 10005;
+            const double maxCost = 20000;
 
             static double GetValue(TestNode node) => node.Value;
             static double GetCosts(TestNode node) => node.Cost;
