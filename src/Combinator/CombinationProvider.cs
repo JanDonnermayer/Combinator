@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Combinator
 {
-    public static class CombinationProvider
+   public static class CombinationProvider
     {
         public static IEnumerable<ICombination<T>> Combine<T>(
             IEnumerable<T> nodes,
@@ -59,12 +59,14 @@ namespace Combinator
             IEnumerable<T> nodes,
             Func<T, double> valueSelector,
             Func<T, double> costSelector,
+            double minCost,
             double maxCost)
         {
             bool proceedPredicate(ICombination<T> state) =>
-                 state.Cost <= maxCost;
+                state.Cost <= maxCost;
 
-            static bool choosePredicate(ICombination<T> _) => true;
+            bool choosePredicate(ICombination<T> state) =>
+                state.Cost >= minCost;
 
             return Combine(
                 nodes: nodes,

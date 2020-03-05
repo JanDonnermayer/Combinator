@@ -8,7 +8,6 @@ namespace Combinator.Tests
     [TestFixture]
     public class CombinatorTests
     {
-
         private struct TestNode
         {
             public TestNode(double value, double cost)
@@ -115,6 +114,7 @@ namespace Combinator.Tests
                 new TestNode(10, 3)
             };
 
+            const double minCost = 100;
             const double maxCost = 200;
 
             static double GetValue(TestNode node) => node.Value;
@@ -126,6 +126,7 @@ namespace Combinator.Tests
                     nodes: nodes,
                     valueSelector: GetValue,
                     costSelector: GetCosts,
+                    minCost: minCost,
                     maxCost: maxCost
                 )
                 .Take(10)
