@@ -18,7 +18,7 @@ namespace Combinator
             bool proceedPredicate(ICombination<T> state) =>
                 state.Value <= maxValue && state.Cost <= maxCost;
 
-            bool choosePredicate(ICombination<T> state) =>
+            bool yieldPredicate(ICombination<T> state) =>
                 state.Value >= minValue
                 && state.Value <= maxValue
                 && state.Cost <= maxCost;
@@ -28,7 +28,7 @@ namespace Combinator
                 valueSelector: valueSelector,
                 costSelector: costSelector,
                 proceedPredicate: proceedPredicate,
-                choosePredicate: choosePredicate
+                yieldPredicate: yieldPredicate
             );
         }
 
@@ -42,7 +42,7 @@ namespace Combinator
             bool proceedPredicate(ICombination<T> state) =>
                 state.Value <= maxValue;
 
-            bool choosePredicate(ICombination<T> state) =>
+            bool yieldPredicate(ICombination<T> state) =>
                 state.Value >= minValue
                 && state.Value <= maxValue;
 
@@ -51,7 +51,7 @@ namespace Combinator
                 valueSelector: valueSelector,
                 costSelector: costSelector,
                 proceedPredicate: proceedPredicate,
-                choosePredicate: choosePredicate
+                yieldPredicate: yieldPredicate
             );
         }
 
@@ -65,7 +65,7 @@ namespace Combinator
             bool proceedPredicate(ICombination<T> state) =>
                 state.Cost <= maxCost;
 
-            bool choosePredicate(ICombination<T> state) =>
+            bool yieldPredicate(ICombination<T> state) =>
                 state.Cost >= minCost;
 
             return Combine(
@@ -73,7 +73,7 @@ namespace Combinator
                 valueSelector: valueSelector,
                 costSelector: costSelector,
                 proceedPredicate: proceedPredicate,
-                choosePredicate: choosePredicate
+                yieldPredicate: yieldPredicate
             );
         }
 
@@ -82,12 +82,12 @@ namespace Combinator
             Func<T, double> valueSelector,
             Func<T, double> costSelector,
             Func<ICombination<T>, bool> proceedPredicate,
-            Func<ICombination<T>, bool> choosePredicate)
+            Func<ICombination<T>, bool> yieldPredicate)
         {
             var rootState = Combination<T>.Empty(
-                 valueSelector: valueSelector,
-                 costSelector: costSelector,
-                 hashSelector: n => n.GetHashCode()
+                valueSelector: valueSelector,
+                costSelector: costSelector,
+                hashSelector: n => n.GetHashCode()
              );
 
             var frontier = ImmutableHashSet<Combination<T>>.Empty
@@ -104,7 +104,7 @@ namespace Combinator
 
                 frontier = frontier.Remove(state);
 
-                if (choosePredicate(state))
+                if (yieldPredicate(state))
                     yield return state;
 
                 frontier = nodes
