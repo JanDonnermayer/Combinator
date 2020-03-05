@@ -28,7 +28,6 @@ namespace Combinator.Tests
             var nodes = new List<TestNode>()
             {
                 new TestNode(5, 1),
-                new TestNode(7, 2),
                 new TestNode(10, 2),
                 new TestNode(10, 3)
             };
@@ -71,7 +70,7 @@ namespace Combinator.Tests
             var nodes = new List<TestNode>()
             {
                 new TestNode(5, 1),
-                new TestNode(7, 2),
+                new TestNode(10, 2),
                 new TestNode(10, 3)
             };
 
@@ -110,7 +109,7 @@ namespace Combinator.Tests
             var nodes = new List<TestNode>()
             {
                 new TestNode(5, 1),
-                new TestNode(7, 2),
+                new TestNode(10, 2),
                 new TestNode(10, 3)
             };
 
