@@ -31,9 +31,9 @@ namespace Combinator.Tests
                 new TestNode(10, 3)
             };
 
-            const double minValue = 100;
-            const double maxValue = 105;
-            const double maxCost = 200;
+            const double minValue = 20;
+            const double maxValue = 25;
+            const double maxCost = 10;
 
             static double GetValue(TestNode node) => node.Value;
             static double GetCosts(TestNode node) => node.Cost;
@@ -51,8 +51,13 @@ namespace Combinator.Tests
                 .Take(10)
                 .ToList();
 
+            foreach (var res in results)
+                TestContext.Progress.WriteLine(res);
+
             // Assert
             Assert.That(results.Count > 0);
+
+            Assert.AreEqual(results.Distinct(), results);
 
             Assert.That(
                 results.All(s =>
@@ -95,6 +100,8 @@ namespace Combinator.Tests
             // Assert
             Assert.That(results.Count > 0);
 
+            Assert.AreEqual(results.Distinct(), results);
+
             Assert.That(
                 results.All(s =>
                     s.Value <= maxValue
@@ -115,7 +122,7 @@ namespace Combinator.Tests
             };
 
             const double minCost = 100;
-            const double maxCost = 200;
+            const double maxCost = 105;
 
             static double GetValue(TestNode node) => node.Value;
             static double GetCosts(TestNode node) => node.Cost;
@@ -134,6 +141,8 @@ namespace Combinator.Tests
 
             // Assert
             Assert.That(results.Count > 0);
+
+            Assert.AreEqual(results.Distinct(), results);
 
             Assert.That(
                 results.All(s => s.Cost <= maxCost)
