@@ -75,7 +75,7 @@ namespace Combinator
 
         public override string ToString()
         {
-            return $"value: {Value}, cost: {Cost}, nodes: {Nodes.Count}";
+            return $"value: {Value}, cost: {Cost}, cost/value: {Cost / Value} nodes: {Nodes.Count}";
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Combinator.Tests
             };
 
             const double minValue = 20;
-            const double maxValue = 25;
+            const double maxValue = 20;
             const double maxCost = 10;
 
             static double GetValue(TestNode node) => node.Value;
@@ -50,9 +50,6 @@ namespace Combinator.Tests
                 )
                 .Take(10)
                 .ToList();
-
-            foreach (var res in results)
-                TestContext.Progress.WriteLine(res);
 
             // Assert
             Assert.That(results.Count > 0);
