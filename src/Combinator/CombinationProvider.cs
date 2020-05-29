@@ -99,7 +99,7 @@ namespace Combinator
             {
                 var state = frontier
                     .OrderBy(s => s.CostPerValue())
-                    .ThenByDescending(s => s.Cost)
+                    .ThenByDescending(s => s.Value)
                     .First();
 
                 frontier = frontier.Remove(state);

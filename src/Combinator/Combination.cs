@@ -62,12 +62,20 @@ namespace Combinator
                 hash: 234672346
             );
 
+        public override int GetHashCode() => this.Hash;
+
         public override bool Equals(object obj)
         {
-            return obj is Combination<T> state &&
-                   Nodes.SequenceEqual(state.Nodes, EqualityComparer<T>.Default);
+            return obj is Combination<T> combination &&
+                   Nodes.Count == combination.Nodes.Count &&
+                   Value == combination.Value &&
+                   Cost == combination.Cost &&
+                   Hash == combination.Hash;
         }
 
-        public override int GetHashCode() => this.Hash;
+        public override string ToString()
+        {
+            return $"value: {Value}, cost: {Cost}, cost/value: {Cost / Value} nodes: {Nodes.Count}";
+        }
     }
 }
